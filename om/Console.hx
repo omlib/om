@@ -113,7 +113,7 @@ class Console {
 		Sys.println( colorize( v, color ) );
 	}
 
-	public static function colorize( v : Dynamic, color : Int ) : String {
+	public static function colorize( v : Dynamic, color : Null<Int> ) : String {
 		if( !colored || color == null )
 			return v;
 		var b = new StringBuf();
