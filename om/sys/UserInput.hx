@@ -31,7 +31,8 @@ class UserInput {
 			var t = Sys.stdin().readLine();
 			if( t == "" )
 				continue;
-			f(t);
+			f( t );
+			break;
 		}
 	}
 
