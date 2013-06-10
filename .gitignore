@@ -1,0 +1,6 @@
+_*
+*.sublime-*
+*.dev
+TODO
+*_[0-9]
+*_dev
