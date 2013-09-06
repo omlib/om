@@ -1,8 +1,5 @@
 package om;
 
-/**
-	Simple event system
-*/
 class EventDispatcher<T> {
 
 	public var numHandlers(get,null) : Int;
@@ -64,7 +61,7 @@ class EventDispatcher<T> {
 		return this;
 	}
 
-/*TODO
+	/*TODO
 	public function dispatchAndAutomate(e : T)
 	{
 		dispatch(e);
@@ -75,7 +72,7 @@ class EventDispatcher<T> {
 			return h;
 		};
 	}
-*/
+	*/
 
 	public function stop() {
 		_stop = true;
@@ -84,4 +81,5 @@ class EventDispatcher<T> {
 	public function clear() {
 		handlers = new Array();
 	}
+	
 }

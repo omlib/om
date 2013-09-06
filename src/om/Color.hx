@@ -2,7 +2,7 @@ package om;
 
 class Color {
     
-    // HTML colors codes
+    // --- HTML colors codes
     
     public static inline var AliceBlue = 0xF0F8FF;
     public static inline var AntiqueWhite = 0xFAEBD7;
@@ -15,7 +15,7 @@ class Color {
     public static inline var BlanchedAlmond = 0xFFEBCD;
     public static inline var Blue = 0x0000FF;
     public static inline var BlueViolet = 0x8A2BE2;
-    public static inline var Brown = 0xBrown;
+    public static inline var Brown = 0xA52A2A;
     public static inline var BurlyWood = 0xDEB887;
     public static inline var CadetBlue = 0x5F9EA0;
     public static inline var Chartreuse = 0x7FFF00;

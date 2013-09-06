@@ -4,6 +4,9 @@ import haxe.Timer;
 
 typedef TweenEase = Float->Float->Float->Float->Float;
 
+/**
+	A simple tween engine
+*/
 class Tween {
 
 	public static inline var interval = 16;

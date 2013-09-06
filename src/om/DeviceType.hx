@@ -9,6 +9,8 @@ enum DeviceType {
 	mobile;
 	tablet;
 	tv;
+	//watch;
+	//headless;
 	//vr;
 	//glass;
 	//cinema;
