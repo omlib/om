@@ -15,7 +15,6 @@ class Console {
 	public static inline function w( v : Dynamic ) untyped console.warn( v );
 	public static inline function e( v : Dynamic ) untyped console.error( v );
 
-
 	#elseif sys
 
 	//TODO determine correct colors
