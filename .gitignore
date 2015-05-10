@@ -1,4 +1,5 @@
 ref/
+data/
 _*
 *.sublime-*
 *.dev
