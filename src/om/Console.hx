@@ -1,5 +1,10 @@
 package om;
 
+#if sys
+typedef Console = om.sys.Console;
+
+#else
+
 import js.Browser.window;
 
 class Console {
@@ -38,3 +43,5 @@ class Console {
 	public static inline function clear() { #if (!no_console&&!doc_gen)  untyped window.console.clear(); #end }
 
 }
+
+#end
