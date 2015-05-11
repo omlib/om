@@ -1,7 +1,8 @@
 language: haxe
 
 script:
-  - haxe --cwd test build.hxml
+  - cd test
+  - haxe build.hxml
 
 notifications:
   email: false
