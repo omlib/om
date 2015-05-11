@@ -1,0 +1,14 @@
+
+-cp ../src
+-cp case
+-main Run
+#-dce full
+#-debug
+#-D om_debug
+--each
+
+--next
+-js test.js
+
+#--next
+#-neko test.n
