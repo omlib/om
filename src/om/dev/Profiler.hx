@@ -7,8 +7,8 @@ import om.Time;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.ExprTools;
-import sys.Console;
 import haxe.macro.Printer;
+import om.sys.Console;
 import om.macro.MacroTools;
 
 using om.macro.MacroFieldTools;
@@ -44,7 +44,7 @@ private typedef ClassProfileResult = {
 	var methods : Array<MethodProfileResult>;
 }
 
-private typedef ProfileResult = {
+typedef ProfileResult = {
 	var time : Float;
 	var classes : Array<ClassProfileResult>;
 }
@@ -161,7 +161,7 @@ class Profiler {
 
 		#if tron
 		if( tron.Build.release ) {
-			Build.warn( 'Method profiler active in release build' );
+			tron.Build.warn( 'Method profiler active in release build' );
 		}
 		#end
 
