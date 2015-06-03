@@ -2,14 +2,18 @@ package om;
 
 @:forward(
     onmessage,onerror,
-    postMessage,terminate
+    //postMessage,
+    terminate
 )
 abstract Worker(js.html.Worker) {
 
     public inline function new( scriptURL : String )
         this = new js.html.Worker( scriptURL );
 
-    public inline function post( message : Dynamic, ?transfer : Array<Dynamic> )
+    public inline function postMessage( ?message : Dynamic, ?transfer : Array<Dynamic> )
+        this.postMessage( message, transfer );
+
+    public inline function post( ?message : Dynamic, ?transfer : Array<Dynamic> )
         this.postMessage( message, transfer );
 
     public static inline function createInlineURL( script : String ) : String
