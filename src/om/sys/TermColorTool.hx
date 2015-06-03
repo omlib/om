@@ -1,15 +1,15 @@
-package om.util;
+package om.sys;
 
-import om.unit.TermColor;
+import om.sys.TermColor;
 
 /**
     Terminal colorizing.
 
     Usage:
-        Sys.print( TermColor.red('abc') );
+        Sys.print( TermColorTool.red('abc') );
         Sys.print( 'abc'.red() );
 */
-class TermColorUtil {
+class TermColorTool {
 
     public static function color( str : String, color : TermColor ) : String {
         var buf = new StringBuf();

@@ -1,7 +1,7 @@
-package om.unit;
+package om.sys;
 
 @:enum
-abstract TermColor(Int) {
+abstract TermColor(Int) from Int to Int {
     var def = 39;
     var black = 30;
     var red = 31;
