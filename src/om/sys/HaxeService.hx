@@ -2,7 +2,11 @@ package om.sys;
 
 #if sys
 import sys.io.Process;
+import sys.FileSystem;
+import sys.io.File;
 #end
+
+using StringTools;
 
 class HaxeService {
 
@@ -68,7 +72,7 @@ class HaxeService {
 		Sys.command( cmd );
 	}
 
-	public static function compile( hxml : String, ?params : Array<String>, ?port : Int, ?errorFile : String ) {
+	public static function compile( hxml : String, ?params : Array<String>, ?port : Int, ?errorFile : String ) : Int {
 		var start = Sys.time();
 		createErrorFile( errorFile, 'Running `haxe $hxml --connect port`' );
 		var p = new Process( 'haxe', [hxml,'--connect','$port']);
@@ -87,6 +91,7 @@ class HaxeService {
 			Sys.println( 'Exit code: $exitCode' );
 			createErrorFile( errorFile, '<h1>Error Compiling $hxml</h1><h3>Output:<pre>$stdout\n$stderr</pre>' );
 		}
+		return exitCode;
 	}
 
 	static function createErrorFile( errorFile : String, content : String ) {
