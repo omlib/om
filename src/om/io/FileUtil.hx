@@ -1,4 +1,4 @@
-package om.sys;
+package om.io;
 
 import sys.FileSystem;
 import sys.io.File;
