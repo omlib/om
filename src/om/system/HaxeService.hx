@@ -1,4 +1,4 @@
-package om.sys;
+package om.system;
 
 #if sys
 import sys.io.Process;
@@ -40,6 +40,13 @@ class HaxeService {
             function(e) cb(  new EReg( '^haxe\\s+\\d+[^:]+[:]$port\\s+\\(LISTEN\\)', 'm' ).match( e.toString() ) ),
             function(e) cb(false)
         );
+	}
+
+	public static function compile( params : Array<String>, cb : String->Void ) {
+		spawn( 'haxe', params,
+			function(e) trace(e),
+			function(e) trace(e)
+		);
 	}
 
     static function spawn( cmd : String, args : Array<String>, onData : String->Void, ?onError : String->Void ) {

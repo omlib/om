@@ -1,4 +1,4 @@
-package om.sys;
+package om.system;
 
 @:enum
 abstract TermColor(Int) from Int to Int {

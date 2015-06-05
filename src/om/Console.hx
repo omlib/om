@@ -10,8 +10,8 @@ import js.Browser.console;
 #end
 
 #if (sys||nodejs)
-import om.sys.TermColor;
-import om.sys.TermColorTool;
+import om.system.TermColor;
+import om.system.TermColorTool;
 #end
 
 /**
@@ -83,7 +83,7 @@ class Console {
     public static inline function error( obj : Dynamic ) #if (!no_console&&!doc_gen) println( obj, color_error ) #end;
 
     public static inline function clear() process.stdout.write( '\033c' );
-    
+
     #elseif js
 
     public static inline function log( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
