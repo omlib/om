@@ -66,21 +66,21 @@ class Console {
 
     #elseif nodejs
 
-    static inline function __printString( str : String, ?color : Int ) {
+    static inline function __print( str : String, ?color : Int ) {
         #if (!no_console&&!doc_gen)
         if( color != null ) str = TermColorTool.color( str, color );
-        process.stdout.write( str )
-        #end;
+        process.stdout.write( str );
+        #end
     }
 
-    public static inline function print( obj : Dynamic, ?color : Int ) __printString( Std.string(obj), color );
-    public static inline function println( obj : Dynamic, ?color : Int ) __printString( Std.string(obj)+'\n' );
+    public static inline function print( obj : Dynamic, ?color : Int ) __print( Std.string(obj), color );
+    public static inline function println( obj : Dynamic, ?color : Int ) __print( Std.string(obj)+'\n', color );
 
-    public static inline function log( obj : Dynamic ) #if (!no_console&&!doc_gen) println( obj ) #end;
-    public static inline function info( obj : Dynamic ) #if (!no_console&&!doc_gen) println( obj, color_info ) #end;
-    public static inline function debug( obj : Dynamic ) #if (!no_console&&!doc_gen) println( obj, color_debug ) #end;
-    public static inline function warn( obj : Dynamic ) #if (!no_console&&!doc_gen) println( obj, color_warn ) #end;
-    public static inline function error( obj : Dynamic ) #if (!no_console&&!doc_gen) println( obj, color_error ) #end;
+    public static inline function log( obj : Dynamic ) println( obj );
+    public static inline function info( obj : Dynamic ) println( obj, color_info );
+    public static inline function debug( obj : Dynamic ) println( obj, color_debug );
+    public static inline function warn( obj : Dynamic ) println( obj, color_warn );
+    public static inline function error( obj : Dynamic ) println( obj, color_error );
 
     public static inline function clear() process.stdout.write( '\033c' );
 
