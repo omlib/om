@@ -86,6 +86,9 @@ class Console {
 
     #elseif js
 
+    public static inline function print( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
+    public static inline function println( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
+
     public static inline function log( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
 	public static inline function info( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.info( obj ); #end }
 	public static inline function debug( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.debug( obj ); #end }
