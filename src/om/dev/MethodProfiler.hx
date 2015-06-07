@@ -8,7 +8,7 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.ExprTools;
 import haxe.macro.Printer;
-import om.sys.Console;
+import om.Console;
 import om.macro.MacroTools;
 
 using om.macro.MacroFieldTools;
@@ -50,9 +50,15 @@ typedef ProfileResult = {
 }
 
 /**
-	Usage: @:autoBuild(om.dev.Profiler.profile())
+	Usage:
+
+		Add build meta to the class you want to profile: @:build(om.dev.MethodProfiler.profile())
+		(for sub classes: @:autoBuild(om.dev.MethodProfiler.profile()) )
+
+		Print results: MethodProfiler.print()
+
 */
-class Profiler {
+class MethodProfiler {
 
 	public static var profiles(default,null) = new StringMap<StringMap<MethodProfile>>();
 	public static var numProfiles(get,null) : Int;
@@ -88,7 +94,7 @@ class Profiler {
 
 		var cProfile = profiles.get( className );
 		if( cProfile == null || !cProfile.exists( methodName ) )
-			throw 'Profiler.end called on a function that was never started [$className.$methodName]';
+			throw 'MethodProfiler.end called on a function that was never started [$className.$methodName]';
 
 		var mProfile = cProfile.get( methodName );
 		mProfile.timeElapsed += Time.now() - mProfile.timeStart;
@@ -117,26 +123,26 @@ class Profiler {
 	*/
 	public static function print( resetProfiles = true ) {
 		if( numProfiles == 0 ) {
-			Console.debug( '0 profiles' );
+			trace( '0 profiles' );
 			return;
 		}
 		var totalTime = 0.0;
 		for( className in profiles.keys() ) {
 			var cProfile = profiles.get( className );
 			var classTime = 0.0;
-			Console.debug( className );
+			trace( className );
 			for( methodName in cProfile.keys() ) {
 				var mProfile = cProfile.get( methodName );
 				var info = '\t.$methodName: ${mProfile.timeElapsed} (${mProfile.calls} call';
 				if( mProfile.calls != 1 ) info += 's';
 				info += ')';
-				Console.debug( info );
+				trace( info );
 				classTime += mProfile.timeElapsed;
 			}
-			Console.debug( '---\n${classTime}s' );
+			trace( '---\n${classTime}s' );
 			totalTime += classTime;
 		}
-		Console.debug( 'Total time: $totalTime' );
+		trace( 'Total time: $totalTime' );
 		if( resetProfiles ) reset();
 	}
 
@@ -160,7 +166,7 @@ class Profiler {
 	macro public static function profile( ?allMethods : Bool = true ) : Array<Field> {
 
 		#if tron
-		if( tron.Build.release ) {
+		if( tron.Build.params.release ) {
 			tron.Build.warn( 'Method profiler active in release build' );
 		}
 		#end
@@ -181,7 +187,7 @@ class Profiler {
 
 				// Prepend the start code to the function
 				fun.expr = macro {
-					om.dev.Profiler.start( $v{clsName}, $v{methodName} );
+					om.dev.MethodProfiler.start( $v{clsName}, $v{methodName} );
 					${fun.expr};
 				};
 
@@ -191,7 +197,7 @@ class Profiler {
 				if( !lastWasReturn ) {
 					fun.expr = macro {
 						${fun.expr};
-						om.dev.Profiler.end( $v{clsName}, $v{methodName} );
+						om.dev.MethodProfiler.end( $v{clsName}, $v{methodName} );
 						return;
 					}
 					}
@@ -215,13 +221,13 @@ class Profiler {
 			lastWasReturn = true;
 			if( retExpr == null ) {
 				return macro {
-					om.dev.Profiler.end( $v{clsName}, $v{methodName} );
+					om.dev.MethodProfiler.end( $v{clsName}, $v{methodName} );
 					return;
 				};
 			} else {
 				return macro {
 					var ___temp_profiling_return_value__ = ${retExpr};
-					om.dev.Profiler.end( $v{clsName}, $v{methodName} );
+					om.dev.MethodProfiler.end( $v{clsName}, $v{methodName} );
 					return ___temp_profiling_return_value__;
 				};
 			}
