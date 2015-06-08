@@ -1,4 +1,4 @@
-package om.system;
+package om.haxe;
 
 #if sys
 import sys.io.Process;
@@ -12,22 +12,6 @@ class HaxeService {
 
 	#if nodejs
 
-	/**
-        HACK Haxe exits with error code 1 when asked for version.
-    */
-    public static inline function getVersion( onResult : String->Void, onError : String->Void ) {
-        spawn( 'haxe', ['-version'],
-            function(e){
-                onResult( e.toString().trim() );
-            },
-            function(e){
-                //TODO validate
-                var err = e.toString().trim();
-                onResult( err );
-            }
-        );
-    }
-
     public static function isPortInUse( port : Int, cb : Bool->Void ) {
         spawn( 'lsof', ['-Pni4'],
             function(e) cb( new EReg( 'TCP [^:]+:$port [(]', '' ).match( e.toString() ) ),
@@ -37,16 +21,11 @@ class HaxeService {
 
     public static function isPortUsedByHaxe( port : Int, cb : Bool->Void ) {
         spawn( 'lsof', ['-Pni4'],
-            function(e) cb(  new EReg( '^haxe\\s+\\d+[^:]+[:]$port\\s+\\(LISTEN\\)', 'm' ).match( e.toString() ) ),
+            function(e) {
+				cb( new EReg( '^haxe\\s+\\d+[^:]+[:]$port\\s+\\(LISTEN\\)', 'm' ).match( e.toString() ) );
+			},
             function(e) cb(false)
         );
-	}
-
-	public static function compile( params : Array<String>, cb : String->Void ) {
-		spawn( 'haxe', params,
-			function(e) trace(e),
-			function(e) trace(e)
-		);
 	}
 
     static function spawn( cmd : String, args : Array<String>, onData : String->Void, ?onError : String->Void ) {
