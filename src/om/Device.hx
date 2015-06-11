@@ -1,5 +1,6 @@
 package om;
 
+import js.Browser.navigator;
 import js.Browser.window;
 
 @:enum abstract ScreenOrientation(String) to String {
@@ -19,6 +20,10 @@ class Device {
 		else if( r >= 1.5 && r < 2 ) 1.5;
 		else if( r >= 2 && r < 3 ) 2;
 		else 3;
+	}
+
+	public static function isMobile() : Bool {
+		return ~/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.match( navigator.userAgent );
 	}
 
 	@:overload(function( pattern : Array<Int> ):Void{})
