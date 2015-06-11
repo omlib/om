@@ -2,12 +2,22 @@ package om;
 
 import js.Browser.window;
 
+@:enum abstract ScreenOrientation(String) to String {
+	var landscape = "landscape";
+	var portrait = "portrait";
+}
+
 class Device {
 
+	public static function getScreenOrientation() : ScreenOrientation {
+		return window.matchMedia( "(orientation:landscape)" ).matches ? landscape : portrait;
+	}
+
 	public static function getPixelRatio() : Float {
-		return if( window.devicePixelRatio <= 1 || ( window.devicePixelRatio > 1 && window.devicePixelRatio < 1.5 ) ) 1;
-		else if( window.devicePixelRatio >= 1.5 && window.devicePixelRatio < 2 ) 1.5;
-		else if( window.devicePixelRatio >= 2 && window.devicePixelRatio < 3 ) 2;
+		var r = window.devicePixelRatio;
+		return if( r <= 1 || ( r > 1 && r < 1.5 ) ) 1;
+		else if( r >= 1.5 && r < 2 ) 1.5;
+		else if( r >= 2 && r < 3 ) 2;
 		else 3;
 	}
 
@@ -16,5 +26,4 @@ class Device {
 		if( untyped navigator.vibrate != null )
 			untyped navigator.vibrate( pattern );
 	}
-
 }
