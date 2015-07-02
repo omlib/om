@@ -8,8 +8,8 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.ExprTools;
 import haxe.macro.Printer;
-import om.Console;
 import om.macro.MacroTools;
+import om.Console;
 
 using om.macro.MacroFieldTools;
 
@@ -52,11 +52,14 @@ typedef ProfileResult = {
 /**
 	Usage:
 
-		Add build meta to the class you want to profile: @:build(om.dev.MethodProfiler.profile())
-		(for sub classes: @:autoBuild(om.dev.MethodProfiler.profile()) )
+		Add build meta to the class you want to profile: @:build(om.dev.MethodProfiler.profile(true))
+		For sub classes: @:autoBuild(om.dev.MethodProfiler.profile(true))
 
 		Print results: MethodProfiler.print()
 
+		By default all methods get profiled.
+		Set @noProfile on the methods you want to exclude.
+		Or pass false as argument to MethodProfiler.profile and enable methods to profile with @profile.
 */
 class MethodProfiler {
 
@@ -121,35 +124,67 @@ class MethodProfiler {
 
 	/**
 	*/
-	public static function print( resetProfiles = true ) {
-		if( numProfiles == 0 ) {
-			trace( '0 profiles' );
-			return;
-		}
+	public static function toString( resetProfiles = true ) : String {
+		if( numProfiles == 0 )
+			return '0 profiles';
+		var str = '';
 		var totalTime = 0.0;
-		for( className in profiles.keys() ) {
-			var cProfile = profiles.get( className );
-			var classTime = 0.0;
-			trace( className );
+		for( cName in profiles.keys() ) {
+			var cProfile = profiles.get( cName );
+			var cTime = 0.0;
+			str += cName+'\n';
 			for( methodName in cProfile.keys() ) {
 				var mProfile = cProfile.get( methodName );
 				var info = '\t.$methodName: ${mProfile.timeElapsed} (${mProfile.calls} call';
 				if( mProfile.calls != 1 ) info += 's';
 				info += ')';
-				trace( info );
-				classTime += mProfile.timeElapsed;
+				str += info+'\n';
+				cTime += mProfile.timeElapsed;
 			}
-			trace( '---\n${classTime}s' );
-			totalTime += classTime;
+			str += '---\n${cTime}s';
+			totalTime += cTime;
 		}
-		trace( 'Total time: $totalTime' );
+		str += '\nTotal time: $totalTime';
 		if( resetProfiles ) reset();
+		return str;
+	}
+
+	/**
+	*/
+	public static function toHTML( resetProfiles = true, precision = 5 ) : String {
+		var totalTime = 0.0;
+		var str = '<div>';
+		for( cName in profiles.keys() ) {
+			var cProfile = profiles.get( cName );
+			var cTime = 0.0;
+			str += '<div>$cName</div>';
+			for( methodName in cProfile.keys() ) {
+				var mProfile = cProfile.get( methodName );
+				var info = '$methodName: '+formatTimeValue( mProfile.timeElapsed, precision )+' ('+mProfile.calls+' call';
+				if( mProfile.calls != 1 ) info += 's';
+				info += ')';
+				str += '<div style="margin-left:10px;">$info</div>';
+				cTime += mProfile.timeElapsed;
+			}
+			totalTime += cTime;
+			str += '<div>---</div>';
+			str += '<div>'+formatTimeValue( cTime, precision )+'</div>';
+		}
+		str += '<div>Total time: '+formatTimeValue( totalTime, precision )+'</div>';
+		str += '</div>';
+		if( resetProfiles ) reset();
+		return str;
 	}
 
 	/**
 	*/
 	public static inline function reset() {
 		profiles = new StringMap();
+	}
+
+	static function formatTimeValue( v : Float, precision : Int ) : String {
+		var s = Std.string(v);
+		return s.substr( 0, s.indexOf('.')+precision );
 	}
 
 	////////////////////////////////////////////////////////////////////////////
@@ -163,13 +198,15 @@ class MethodProfiler {
 	/**
 		Inject profiling code at the beginning and ending of each function
 	*/
-	macro public static function profile( ?allMethods : Bool = true ) : Array<Field> {
+	macro public static function profile( allMethods : Bool = true ) : Array<Field> {
 
+		/*
 		#if tron
 		if( tron.Build.params.release ) {
 			tron.Build.warn( 'Method profiler active in release build' );
 		}
 		#end
+		*/
 
 		clsName = MacroTools.getFullClassName( Context.getLocalClass().get() );
 		var fields = Context.getBuildFields();
