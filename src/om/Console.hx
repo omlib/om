@@ -18,12 +18,14 @@ import om.system.TermColorTool;
     Console utilities.
 
     haxe/js     => js.Browser.console
-    haxe/node   => Terminal
-    haxe/sys    => Terminal
+    haxe/node   => process.stdout.write
+    haxe/sys    => Sys.print
 */
 class Console {
 
     #if (sys||nodejs)
+
+    public static var noColors = false;
 
     public static var color_info = TermColor.blue;
     public static var color_debug = TermColor.yellow;
@@ -34,14 +36,13 @@ class Console {
 
     #if sys
 
-    public static var noColors = false;
+    public static inline function clear() Sys.print( '\033c' ); //Sys.command( 'clear' );
 
     public static inline function print( str : String, ?color : Int ) {
         #if (!no_console&&!doc_gen)
         Sys.print( (noColors || color == null) ? str : TermColorTool.color( str, color ) );
         #end
     }
-
     public static inline function println( str : String, ?color : Int ) print( '$str\n', color );
 
     public static inline function log( o : Dynamic ) println( Std.string(o) );
@@ -50,28 +51,16 @@ class Console {
     public static inline function warn( o : Dynamic ) println( Std.string(o), color_warn );
     public static inline function error( o : Dynamic ) println( Std.string(o), color_error );
 
-    public static inline function clear() Sys.print( '\033c' ); //Sys.command( 'clear' );
-
-    public static function prompt( ?msg : String, untilCharCode = 13 ) : String {
-        if( msg != null ) println( msg );
-        var str = '';
-        while( true ) {
-            var c = Sys.getChar( true );
-            if( c == untilCharCode )
-                return str;
-            else str += String.fromCharCode(c);
-        }
-        return str;
-    }
-
     #elseif nodejs
 
     static inline function __print( str : String, ?color : Int ) {
         #if (!no_console&&!doc_gen)
-        if( color != null ) str = TermColorTool.color( str, color );
+        if( !noColors && color != null ) str = TermColorTool.color( str, color );
         process.stdout.write( str );
         #end
     }
+
+    public static inline function clear() process.stdout.write( '\033c' );
 
     public static inline function print( obj : Dynamic, ?color : Int ) __print( Std.string(obj), color );
     public static inline function println( obj : Dynamic, ?color : Int ) __print( Std.string(obj)+'\n', color );
@@ -82,9 +71,9 @@ class Console {
     public static inline function warn( obj : Dynamic ) println( obj, color_warn );
     public static inline function error( obj : Dynamic ) println( obj, color_error );
 
-    public static inline function clear() process.stdout.write( '\033c' );
-
     #elseif js
+
+	public static inline function clear() { #if (!no_console&&!doc_gen) console.clear(); #end }
 
     public static inline function print( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
     public static inline function println( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
@@ -116,7 +105,6 @@ class Console {
 	public static inline function timelineEnd( label : String ) { #if (!no_console&&!doc_gen)  untyped console.timelineEnd( label ); #end }
 	public static inline function timeStamp( label : String ) { #if (!no_console&&!doc_gen)  untyped console.timeStamp( label ); #end }
 
-	public static inline function clear() { #if (!no_console&&!doc_gen) console.clear(); #end }
 
     #end
 }
