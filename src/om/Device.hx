@@ -3,11 +3,6 @@ package om;
 import js.Browser.navigator;
 import js.Browser.window;
 
-@:enum abstract ScreenOrientation(String) to String {
-	var landscape = "landscape";
-	var portrait = "portrait";
-}
-
 class Device {
 
 	public static function getScreenOrientation() : ScreenOrientation {
