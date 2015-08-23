@@ -223,8 +223,10 @@ class Tween {
 				_startTime = time + _delayTime;
 				return true;
 			} else {
-				if ( _onCompleteCallback != null )
+				isPlaying = false;
+				if ( _onCompleteCallback != null ) {
 					_onCompleteCallback();
+				}
 				for( tween in _chainedTweens ) tween.start( time );
 				return false;
 			}
