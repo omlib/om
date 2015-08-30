@@ -4,8 +4,14 @@ import js.Browser.window;
 
 class Twitter {
 
+    public static inline var BASE_URL = 'https://twitter.com';
+    public static inline var BASE_TWEET_URL = BASE_URL+'/intent/tweet?';
+
+    /**
+        Usage example: window.open( Twitter.createTweetURL( 'My text to tweet', 'http://disktree.net' ), '', 'width=618,height=382' );
+    */
     public static function createTweetURL( ?text : String, ?url : String, ?via : String ) : String {
-        var str = 'https://twitter.com/intent/tweet?';
+        var str = BASE_TWEET_URL;
         if( text != null ) str += '&text=$text';
         if( url != null ) str += '&url=$url';
         if( via != null ) str += '&via=$via';
