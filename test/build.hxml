@@ -1,4 +1,3 @@
-
 -cp ../src
 -cp case
 -main Run
@@ -8,7 +7,7 @@
 --each
 
 --next
--js test.js
+-js unit.js
 
-#--next
-#-neko test.n
+--next
+-neko unit.n
