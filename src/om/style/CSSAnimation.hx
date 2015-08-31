@@ -1,4 +1,4 @@
-package om.dom;
+package om.style;
 
 import js.html.Element;
 
@@ -10,8 +10,7 @@ using StringTools;
 /**
 	TODO multiple elements
 	TODO start/stop/restart cleanup
-
-	See: https://css-tricks.com/controlling-css-animations-transitions-javascript/
+	TODO See: https://css-tricks.com/controlling-css-animations-transitions-javascript/
 */
 class CSSAnimation {
 
