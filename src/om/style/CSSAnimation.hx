@@ -1,36 +1,45 @@
 package om.style;
 
 import js.html.Element;
+import js.html.AnimationEvent;
 
 using StringTools;
 
-//@:build()
-//enum AnimationType
+@:enum abstract AnimationDirection(String) from String to String {
+	var normal = 'normal';
+	var reverse = 'reverse';
+	var alternate = 'alternate';
+	var alternate_reverse = 'alternate-reverse';
+}
 
 /**
-	TODO multiple elements
-	TODO start/stop/restart cleanup
-	TODO See: https://css-tricks.com/controlling-css-animations-transitions-javascript/
 */
 class CSSAnimation {
 
+	public var element(default,null) : Element;
 	public var name(default,null) : String;
 	public var duration(default,null) : Float;
 	public var repeat(default,null) : Int;
 	public var delay(default,null) : Float;
-	public var playing(default,null) : Bool;
-	public var element(default,null) : Element;
+	public var playing(get,never) : Bool; //TODO animation playstate
+	public var direction(default,null) : AnimationDirection;
 
 	var _onStart : Void->Void;
 	var _onEnd : Void->Void;
 	var _onIteration : Void->Void;
 
-	public function new( name : String, duration = 1.0, repeat = 0, delay = 0.0 ) {
+	public function new( element : Element, name : String,
+						 duration = 1.0, repeat = 1, delay = 0.0, ?direction : AnimationDirection ) {
+		this.element = element;
 		this.name = name;
 		this.duration = duration;
 		this.repeat = repeat;
 		this.delay = delay;
-		playing = false;
+		this.direction = direction;
+	}
+
+	function get_playing() : Bool {
+		return element.style.animationPlayState == 'running';
 	}
 
 	public inline function onStart( cb : Void->Void ) : CSSAnimation {
@@ -48,63 +57,57 @@ class CSSAnimation {
 		return this;
 	}
 
-	//public function start( elements : Array<Element> ) : CSSAnimation {
-	public function start( element : Element ) : CSSAnimation {
+	public function start() : CSSAnimation {
 
-		this.element = element;
-
-		playing = true;
+		var style = element.style;
+		style.animation = name;
+		style.animationDuration = duration+'s';
+		style.animationFillMode = 'forwards';
+		if( direction != null ) style.animationDirection = direction;
+		if( repeat > 1 ) style.animationIterationCount = '$repeat';
+		else if( repeat == 0 )  style.animationIterationCount = 'infinite';
+		if( delay > 0 ) style.animationDelay = delay+'s';
 
 		element.addEventListener( "animationstart", handleStart, false );
 		element.addEventListener( "animationend", handleEnd, false );
 		element.addEventListener( "animationiteration", handleIteration, false );
-		element.addEventListener( "webkitAnimationStart", handleStart, false );
-		element.addEventListener( "webkitAnimationEnd", handleEnd, false );
-		element.addEventListener( "webkitAnimationIteration", handleIteration, false );
-
-		var style = element.style;
-		untyped style.webkitAnimation = name;
-		untyped style.webkitAnimationDuration = duration+'s';
-		untyped style.webkitAnimationFillMode = 'forwards';
-		if( repeat > 0 ) untyped style.webkitAnimationIterationCount = '$repeat';
-		if( delay > 0 ) untyped style.webkitAnimationDelay = delay+'s';
-		//trace( untyped target.style.webkitAnimationPlayState );
 
 		return this;
 	}
 
-	/*
-	public function stop() {
-		//TODO
-	}
-	*/
-
-	public function dispose() : CSSAnimation {
+	public function stop() : CSSAnimation {
 
 		element.removeEventListener( "animationstart", handleStart );
 		element.removeEventListener( "animationend", handleEnd );
 		element.removeEventListener( "animationiteration", handleIteration );
-		element.removeEventListener( "webkitAnimationStart", handleStart );
-		element.removeEventListener( "webkitAnimationEnd", handleEnd );
-		element.removeEventListener( "webkitAnimationIteration", handleIteration );
 
 		for( f in Reflect.fields( element.style ) )
-			if( f.startsWith( 'webkitAnimation' ) )
+			if( f.startsWith( 'animation' ) )
 				Reflect.setField( element.style, f, '' );
 
 		return this;
 	}
 
-	function handleStart(e) {
+	public function pause() : CSSAnimation {
+		element.style.animationPlayState = 'paused';
+		return this;
+	}
+
+	public function resume() : CSSAnimation {
+		element.style.animationPlayState = 'running';
+		return this;
+	}
+
+	function handleStart( e : AnimationEvent ) {
 		if( _onStart != null ) _onStart();
 	}
 
-	function handleEnd(e) {
-		dispose();
+	function handleEnd( e : AnimationEvent ) {
+		stop();
 		if( _onEnd != null ) _onEnd();
 	}
 
-	function handleIteration(e) {
+	function handleIteration( e : AnimationEvent ) {
 		if( _onIteration != null ) _onIteration();
 	}
 
