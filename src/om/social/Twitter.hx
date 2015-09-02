@@ -1,6 +1,6 @@
 package om.social;
 
-import js.Browser.window;
+using StringTools;
 
 class Twitter {
 
@@ -12,9 +12,9 @@ class Twitter {
     */
     public static function createTweetURL( ?text : String, ?url : String, ?via : String ) : String {
         var str = BASE_TWEET_URL;
-        if( text != null ) str += '&text=$text';
-        if( url != null ) str += '&url=$url';
-        if( via != null ) str += '&via=$via';
+        if( text != null ) str += '&text=' + text.urlEncode();
+        if( url != null ) str += '&url=' + url.urlEncode();
+        if( via != null ) str += '&via=' + via.urlEncode();
         return str;
     }
 
