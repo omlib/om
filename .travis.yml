@@ -10,7 +10,7 @@ matrix:
     - haxe: development
 
 script:
-  - cd test
+  - cd test/unit
   - haxe build.hxml
 
 notifications:
