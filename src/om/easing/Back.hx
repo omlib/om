@@ -1,5 +1,6 @@
-package om.tween.ease;
+package om.easing;
 
+@:keep
 class Back {
 
 	public static inline function In( k : Float ) : Float {

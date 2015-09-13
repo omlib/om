@@ -1,5 +1,6 @@
-package om.tween.ease;
+package om.easing;
 
+@:keep
 class Elastic {
 
 	public static function In( k : Float ) : Float {

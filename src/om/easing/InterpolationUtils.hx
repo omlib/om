@@ -1,4 +1,4 @@
-package om.tween;
+package om.easing;
 
 class InterpolationUtils {
 

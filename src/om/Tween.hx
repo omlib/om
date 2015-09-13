@@ -1,8 +1,8 @@
 package om;
 
 import js.Browser.window;
-import om.tween.Interpolation;
-import om.tween.ease.Linear;
+import om.easing.Interpolation;
+import om.easing.Linear;
 
 class Tween {
 

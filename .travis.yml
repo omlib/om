@@ -1,5 +1,14 @@
 language: haxe
 
+haxe:
+  - "3.2.0"
+  - development
+
+matrix:
+  # Allow Haxe development to fail.
+  allow_failures:
+    - haxe: development
+
 script:
   - cd test
   - haxe build.hxml
@@ -9,6 +18,6 @@ notifications:
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/e3b824f44516f381cfde
-    on_success: change  # options: [always|never|change] default: always
+    on_success: always  # options: [always|never|change] default: always
     on_failure: always  # options: [always|never|change] default: always
-    on_start: false     # default: false
+    on_start: always     # default: false
