@@ -5,13 +5,11 @@ haxe:
   - development
 
 matrix:
-  # Allow Haxe development to fail.
   allow_failures:
     - haxe: development
 
 script:
-  - cd test/unit
-  - haxe build.hxml
+  - cd test/ && haxe build.hxml
 
 notifications:
   email: false
