@@ -1,8 +1,9 @@
 data/
 doc/api/
 doc/api.xml
+experiment/
 ref/
-test/unit.js
+test/unit.*
 _*
 *.sublime-*
 *.dev

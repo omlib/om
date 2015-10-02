@@ -1,6 +1,6 @@
-package om.system;
+package om.term;
 
-import om.system.TermColor;
+import om.term.TermColor;
 
 /**
     Terminal colorizing.

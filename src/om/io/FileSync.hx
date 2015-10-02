@@ -10,47 +10,56 @@ import sys.FileSystem.readDirectory;
 import sys.io.File;
 import sys.io.File.copy;
 
+using haxe.io.Path;
 using om.io.FileUtil;
 
+/**
+	Utility to synchronize files and directories.
+*/
 class FileSync {
 
 	/**
 		Returns true if target file doesn't exist or is older as source file.
 	*/
-	public static function needsUpdate( source : String, target : String ) : Bool {
-		return !exists( target ) ? true : source.modTime() > target.modTime();
+	public static function needsUpdate( src : String, dst : String ) : Bool {
+		return exists( dst ) ? src.modTime() > dst.modTime() : true;
 	}
 
 	/**
+		Copies source file to target destination only if:
+			* It exists
+			* It is a file (not a directory)
+			* It is newer as the file at destination
+
+		Returns true if synced.
 	*/
-	public static function syncFile( source : String, target : String ) : Bool {
-		if( !exists( source ) || isDirectory( source ) )
+	public static function syncFile( src : String, dst : String ) : Bool {
+		if( !exists( src ) || isDirectory( src ) || !needsUpdate( src, dst ) )
 			return false;
-		if( needsUpdate( source, target ) ) {
-			copy( source, target );
-			return true;
-		}
-		return false;
+		var dir = dst.directory();
+		if( !exists( dir ) ) createDirectory( dir );
+		copy( src, dst );
+		return true;
 	}
 
 	/**
 	*/
-	public static function syncDirectory( source : String, target : String, recursive = true ) : Bool {
-		if( !exists( source ) )
-			throw 'Source directory not found ($source)';
-		if( !exists( target ) )
-			createDirectory( target );
-		for( f in readDirectory( source ) ) {
-			var sp = '$source/$f';
-			var tp = '$target/$f';
+	public static function syncDirectory( src : String, dst : String, recursive = true ) : Bool {
+		if( !exists( src ) )
+			throw 'Source directory not found ($src)';
+		if( !exists( dst ) )
+			createDirectory( dst );
+		for( f in readDirectory( src ) ) {
+			var sp = '$src/$f';
+			var dp = '$dst/$f';
 			if( isDirectory( sp ) ) {
-				//if( !exists( target ) ) createDirectory( target );
-				if( recursive ) syncDirectory( sp, tp );
+				//if( !exists( dst ) ) createDirectory( dst );
+				if( recursive ) syncDirectory( sp, dp );
 			} else {
-				if( exists( tp ) ) {
-					if( needsUpdate( sp, tp ) ) copy( sp, tp );
+				if( exists( dp ) ) {
+					if( needsUpdate( sp, dp ) ) copy( sp, dp );
 				} else {
-					copy( sp, tp );
+					copy( sp, dp );
 				}
 			}
 		}

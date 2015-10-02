@@ -23,6 +23,7 @@ typedef FileSystemEvent = {
     Watches given filesystem path for changes.
     It uses a md5-sum map to compare if files have changed for real since the nodejs implementation of fs.watch is that shitty and reports every event twice.
 */
+@:require(nodejs)
 class FileWatch {
 
     public var active(default,null) : Bool;
@@ -41,7 +42,7 @@ class FileWatch {
 
     public function start( path : String, ?options : WatchOptions, callback : FileSystemEvent->Void ) {
         active = true;
-        if( path.isDirectory() )
+        if( path.isDirectorySync() )
             watchDirectory( path, options, callback );
         else
             watchFile( path, options, callback );
@@ -77,7 +78,7 @@ class FileWatch {
     }
 
     function watchDirectory( path : String, ?options : WatchOptions, callback : FileSystemEvent->Void ) {
-        for( f in path.readDirectory() ) {
+        for( f in path.readDirectorySync() ) {
             if( options != null && options.ignored != null ) {
                 if( options.ignored.has( f ) ) {
                     trace("IGNORED: "+f );
@@ -85,7 +86,7 @@ class FileWatch {
                 }
             }
             var p = '$path/$f';
-            if( p.isDirectory() ) {
+            if( p.isDirectorySync() ) {
                 /*
                 Fs.watch( p, {persistent:true,recursive:true}, function(e,f){
                     callback( { type:e, path:'$p/$f' } );

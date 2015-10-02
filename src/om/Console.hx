@@ -10,8 +10,8 @@ import js.Browser.console;
 #end
 
 #if (sys||nodejs)
-import om.system.TermColor;
-import om.system.TermColorTool;
+import om.term.TermColor;
+import om.term.TermColorTool;
 #end
 
 /**
