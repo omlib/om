@@ -1,15 +1,13 @@
 language: haxe
 
+sudo: false
+
 haxe:
   - "3.2.0"
   - development
 
-matrix:
-  allow_failures:
-    - haxe: development
-
 script:
-  - cd test/ && haxe build.hxml
+  - haxe --cwd test build.hxml
 
 notifications:
   email: false
