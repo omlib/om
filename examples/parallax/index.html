@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>om.parallax</title>
+        <link rel="stylesheet" href="../res/style/parallax.css">
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background: #000;
+                overflow: hidden;
+            }
+            header {
+                position: fixed;
+                z-index: 1000;
+            }
+            header h1 {
+                font-size: 32px;
+            }
+            .parallax {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                display: none;
+            }
+        </style>
+        <script src="app.js" defer></script>
+    </head>
+    <body>
+
+        <div id="example-0" class="parallax">
+			<img class="layer" src="img/parallax-1.png"></img>
+			<img class="layer" src="img/parallax-2.png"></img>
+			<img class="layer" src="img/parallax-3.png"></img>
+			<img class="layer" src="img/parallax-4.png" data-depth="1.0"></img>
+        </div>
+		<!--
+        <div id="example-1" class="parallax" style="background:#2400B6;" data-lock="y">
+            <img class="layer" src="img/greenhillzone-4.png"></img>
+            <img class="layer" src="img/greenhillzone-3.png"></img>
+            <img class="layer" src="img/greenhillzone-2.png"></img>
+			<img class="layer" src="img/greenhillzone-1.png"></img>
+        </div>
+
+        <div id="example-2" class="parallax" style="background:#2400B6;">
+            <img class="layer" src="img/panzerschokolade-4.png"></img>
+            <img class="layer" src="img/panzerschokolade-3.png"></img>
+            <img class="layer" src="img/panzerschokolade-2.png"></img>
+			<img class="layer" src="img/panzerschokolade-1.png"></img>
+        </div>
+
+        <div id="example-2" class="parallax">
+			<img class="layer" src="img/target_red.png"></img>
+			<img class="layer" src="img/target_green.png"></img>
+			<img class="layer" src="img/target_blue.png"></img>
+        </div>
+    -->
+    </body>
+</html>

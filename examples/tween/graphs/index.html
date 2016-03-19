@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+        <title>om.tween.graphs</title>
+        <style>
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+            }
+            body {
+                padding: 3px;
+                overflow-x: hidden;
+                font-family: Helvetica,Arial;
+                font-weight: 300;
+                font-size: 11px;
+                background: #0b0b0b;
+            }
+            div.group {
+                display: inline-block;
+                margin-top: 5px;
+                margin-left: 5px;
+                background: #002B36;
+                border: 1px solid #002B36;
+            }
+            div.group div.graph:not(:last-child) {
+                border-bottom: 1px solid #0b0b0b;
+            }
+            div.group div.graph div.title {
+                display: inline-block;
+                position: absolute;
+                margin: 4px 2px 2px 5px;
+                color: #93A1A1;
+            }
+            div.group div.graph canvas {
+                display: inline-block;
+                margin: 0 0 0 0;
+                vertical-align: baseline;
+                background: #073642;
+            }
+        </style>
+        <script src="app.js" defer></script>
+    </head>
+    <body></body>
+</html>

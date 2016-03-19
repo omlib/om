@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>om.css.filters</title>
+        <link rel="stylesheet" href="filters.css" charset="utf-8">
+        <style media="screen">
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                background: #000;
+                color: #fff;
+                font-family: Helvetica, Arial;
+                font-size: 13px;
+            }
+            div.example {
+                display: inline-block;
+                margin-top: 10px;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
+            div.example div.title {
+            }
+            div.example img {
+                display: inline-block;
+                border: 0;
+                transition: -webkit-filter 0.2s;
+            }
+            div.example img:hover {
+                -webkit-filter: none;
+            }
+        </style>
+        <script>
+
+            var filters = ["butterfly","cooper","eureka","flipflop","introvert","karl","lofi","london","night","rocky","silver"];
+
+            window.onload = function(){
+
+                for(var i=0; i<filters.length; i++) {
+
+                    var filter = filters[i];
+
+                    var e = document.createElement('div');
+                    e.classList.add( 'example' );
+
+                    var img = document.createElement('img');
+                    img.src = 'keyboard.jpg';
+                    img.classList.add( 'filter-'+filter );
+                    e.appendChild(img);
+
+                    var title = document.createElement('div');
+                    title.classList.add( 'title' );
+                    title.textContent = filter;
+                    e.appendChild(title);
+
+                    document.getElementById("images").appendChild(e);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div id="images"></div>
+    </body>
+</html>
