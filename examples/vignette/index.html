@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>om.style.vignette</title>
+        <link rel="stylesheet" href="style.css">
+        <script>
+
+            var vignette;
+            var offsetX, offsetY, blur, color;
+
+            function updateStyle() {
+                console.log("updateStyle");
+                vignette.style.boxShadow =
+                    offsetX.value+'px '+offsetY.value+'px '+blur.value+'px '+color.value+' inset,'+
+                   (-offsetX.value)+'px '+(-offsetY.value)+'px '+blur.value+'px '+color.value+' inset';
+            }
+
+            window.onload = function(){
+
+                vignette = document.getElementById( 'vignette' );
+
+                offsetX = document.getElementById('x');
+                offsetY = document.getElementById('y');
+                blur = document.getElementById('blur');
+                color = document.getElementById('color');
+
+                offsetX.oninput = updateStyle;
+                offsetY.oninput = updateStyle;
+                blur.oninput = updateStyle;
+                color.oninput = updateStyle;
+
+                updateStyle();
+            }
+        </script>
+    </head>
+    <body>
+        <div id="controls">
+            <input type="number" id="x" value="100">
+            <input type="number" id="y" value="100">
+            <input type="number" id="blur" value="200">
+            <input type="color" id="color" value="#000000">
+        </div>
+        <div id="random-content">A bit Helvetica, because i said so.</div>
+        <div id="vignette"></div>
+        <footer>
+            <span>POOR MAN VIGNETTE EFFECT</span>
+            <span> - </span>
+            <a href="https://github.com/tong/om.style/blob/master/res/style/effect/vignette.less">SOURCE</a>
+        </footer>
+    </body>
+</html>
