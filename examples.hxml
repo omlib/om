@@ -1,0 +1,2 @@
+-cp src
+--macro om.extra.Examples.build()
