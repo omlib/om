@@ -1,0 +1,8 @@
+{
+"version":3,
+"file":"app.js",
+"sourceRoot":"file:///",
+"sources":["/home/tong/dev/lib/om.net/examples/websocket/App.hx"],
+"names":[],
+"mappings":";;WAMO,AAAgB;CAEZ,AAA0B;CACpC,EAAc,QAAW;EACX,QAAwB;EACrC,CAAgB,QAAY;GAC3B,FAAe;GACf,SAAM;GACN,FAAY;;EAEb,CAAiB,SAChB;CAAc;;EAEf,CAAiB,UAChB;CAAa;;EAEd,CAAmB,UAAY;GAC9B,FAAa;GACC;;;GACd,AAAsB;GACtB,FAA2B;;;;;;;"
+}

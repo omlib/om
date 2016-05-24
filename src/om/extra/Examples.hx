@@ -8,15 +8,16 @@ class Examples {
 
 	static function build() {
 
-		// Build /examples/index.html
+		///// Build /examples/index.html
 
 		var path = 'examples';
-		var examples = new Array<Dynamic>();
-		for( f in FileSystem.readDirectory( path ) ) {
-			var p = '$path/$f';
-			if( !FileSystem.isDirectory( p ) )
+		var examples = new Array<String>();
+		for( g in FileSystem.readDirectory( path ) ) {
+			if( !FileSystem.isDirectory( '$path/$g' ) )
 				continue;
-			examples.push( { name: f } );
+			for( f in FileSystem.readDirectory( '$path/$g' ) ) {
+				examples.push( '$g/$f' );
+			}
 		}
 		var ctx = {
 			examples: examples
@@ -25,5 +26,6 @@ class Examples {
 		var html = tpl.execute( ctx );
 		var out = 'examples/index.html';
 		File.saveContent( out, html );
+
 	}
 }

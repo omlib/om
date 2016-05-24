@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>om.net.websocket</title>
+		<style>
+			body {
+				font-family: monospace;
+				background: #181818; color: #313131;
+			}
+			input, button {
+				font-family: monospace;
+				background: #313131;
+				color: #000;
+				border: none;
+				padding: 5px;
+			}
+			.info {
+				margin-top: 10px;
+				font-size: 9px;
+				color: #313131;
+			}
+		</style>
+		<script src="app.js" defer></script>
+	</head>
+	<body>
+		<input type="text" id="host" value="localhost">
+		<input type="number" id="port" value="7700">
+		<button id="connect">CONNECT</button>
+		<div class="info">Get a websocket server for testing from: <a href="https://github.com/tong/om.net/tree/master/examples/websocket">https://github.com/tong/om.net/tree/master/examples/websocket</a></div>
+	</body>
+</html>
