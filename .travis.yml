@@ -9,8 +9,8 @@ matrix:
     - haxe: development
 
 script:
-  - haxe doc.hxml
-  - haxe run.hxml
+  #- haxe doc.hxml
+  #- haxe run.hxml
   #- haxe --cwd test build.hxml
 
 notifications:
