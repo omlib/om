@@ -1,12 +1,6 @@
-data/
-doc/api/
-doc/api.xml
-experiment/
-ref/
-test/unit.*
 _*
-*.sublime-*
-*.dev
-TODO
 *_[0-9]
-*_dev
+doc/
+test/bin/
+haxedoc.xml
+run.n
