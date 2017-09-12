@@ -1,11 +1,17 @@
 language: haxe
 
 haxe:
-  - "3.2.0"
+  - "3.4.3"
   - development
 
+matrix:
+  allow_failures:
+    - haxe: development
+
 script:
-  - haxe --cwd test build.hxml
+  - haxe doc.hxml
+  - haxe run.hxml
+  #- haxe --cwd test build.hxml
 
 notifications:
   email: false
