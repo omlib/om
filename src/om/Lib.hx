@@ -24,7 +24,7 @@ class Lib {
 				dirs.push( dir );
 		}
 
-		dirs.sort( (a,b) -> return ((a = a.toLowerCase()) < (b = b.toLowerCase())) ? -1 : (a > b) ? 1 : 0 );
+		dirs.sort( function(a,b) return ((a = a.toLowerCase()) < (b = b.toLowerCase())) ? -1 : (a > b) ? 1 : 0 );
 
 		var libs = new Array<Dynamic>();
 		for( dir in dirs ) {
