@@ -19,7 +19,7 @@ install:
     - haxelib git om.core https://github.com/tong/om.core
 
 script:
-    - haxe -cp src --macro om.Doc.build()
+    - haxe -cp src '--macro om.Doc.build()'
     #- haxe doc.hxml
 
 deploy:
