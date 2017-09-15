@@ -23,6 +23,7 @@ class Doc {
 		var dir = parts.join( '/' );
 
 		var libs = om.Lib.search( dir );
+		print( libs.length+' libraries found' );
 		/*
 		trace( libs );
 		var i = 0;
@@ -30,8 +31,6 @@ class Doc {
 			FileSystem.exists( '$dir/${libs[i]}/$hxml' ) ? i++ : libs.splice( i, 1 );
 		}
 		*/
-
-		println( 'Generate xml' );
 
 		var i = 0;
 		while( i < libs.length ) {
@@ -43,6 +42,9 @@ class Doc {
 				libs.splice( i, 1 );
 			}
 		}
+
+		println( ', '+libs.length+' have a doc.hxml' );
+		println( 'Generate xml' );
 
 		for( i in 0...libs.length ) {
 			var lib = libs[i];

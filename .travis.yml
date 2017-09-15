@@ -1,12 +1,12 @@
 language: haxe
 
 haxe:
-  - "3.4.3"
-  - development
+    - "3.4.3"
+    - development
 
 matrix:
-  allow_failures:
-    - haxe: development
+    allow_failures:
+        - haxe: development
 
 install:
     - haxelib install hxcpp
@@ -19,23 +19,22 @@ install:
     - haxelib git om.core https://github.com/tong/om.core
 
 script:
-  - haxe doc.hxml
-  #- haxe run.hxml
-  #- haxe --cwd test build.hxml
+    - haxe -cp src --macro om.Doc.build()
+    #- haxe doc.hxml
 
 deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
-  local_dir: doc
-  on:
-    branch: master
+    provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+    local_dir: doc
+    on:
+        branch: master
 
 notifications:
-  email: false
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/e3b824f44516f381cfde
-    on_success: always  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: always     # default: false
+    email: false
+    webhooks:
+        urls:
+            - https://webhooks.gitter.im/e/e3b824f44516f381cfde
+            on_success: always  # options: [always|never|change] default: always
+            on_failure: always  # options: [always|never|change] default: always
+            on_start: always     # default: false
